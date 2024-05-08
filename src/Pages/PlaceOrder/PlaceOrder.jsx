@@ -1,9 +1,18 @@
 import React, { useContext } from "react";
 import "./PlaceOrder.css";
 import { StoreContext } from "../../context/StoreContext";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const PlaceOrder = () => {
   const { getTotalCartAmount } = useContext(StoreContext);
+
+  const navigate = useNavigate();
+
+  const proceedToPaymentHandler = () => {
+    toast.success("Payment done success");
+    navigate("/");
+  }
 
   return (
     <form className="place-order">
@@ -44,7 +53,7 @@ const PlaceOrder = () => {
               <b>${getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2}</b>
             </div>
           </div>
-          <button>PROCEED TO PAYMENT</button>
+          <button onClick={proceedToPaymentHandler}>PROCEED TO PAYMENT</button>
         </div>
       </div>
     </form>

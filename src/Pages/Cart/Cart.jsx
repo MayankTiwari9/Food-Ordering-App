@@ -2,12 +2,26 @@ import React, { useContext } from "react";
 import "./Cart.css";
 import { StoreContext } from "../../context/StoreContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Cart = () => {
   const { cartItems, food_list, removeFromCart, getTotalCartAmount } =
     useContext(StoreContext);
 
   const navigate = useNavigate();
+
+  console.log(cartItems);
+
+  const checkOutHandler = () => {
+    const isEmptyCart = Object.keys(cartItems).length === 0 || Object.values(cartItems).every(quantity => quantity === 0);
+    
+    if (isEmptyCart) {
+      toast.error("Your cart is empty");
+    } else {
+      navigate('/order');
+    }
+  }
+  
 
   return (
     <div className="cart">
@@ -61,7 +75,7 @@ const Cart = () => {
               <b>${getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2}</b>
             </div>
           </div>
-          <button onClick={() => navigate("/order")}>
+          <button onClick={checkOutHandler}>
             PROCEED TO CHECKOUT
           </button>
         </div>
